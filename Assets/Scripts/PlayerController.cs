@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public Animator animator;
+    public AnimationController animationController;
+    public new Rigidbody rigidbody;
+    public float speed;
 
-    // Start is called before the first frame update
     void Start()
     {
         
@@ -15,23 +16,25 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            animator.SetBool("IsField", !animator.GetBool("IsField"));
+            animationController.PlayBoolAnim("Mode");
         }
 
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        var dirX = Input.GetAxis("Horizontal");
+        var dirY = Input.GetAxis("Vertical");
+        if (dirX != 0 || dirY != 0)
         {
-            animator.SetBool("IsMove", true);
+            animationController.PlayBoolAnim("Move",true);
+            rigidbody.velocity = (transform.forward * dirY + transform.right * dirX).normalized * speed * Time.deltaTime;
         }
         else
         {
-            animator.SetBool("IsMove", false);
+            animationController.PlayBoolAnim("Move", false);
         }
-
         if (Input.GetMouseButtonDown(0))
         {
-            animator.SetTrigger("Interact");
+            animationController.PlayTriggerAnim("Motion");
         }
     }
 }
