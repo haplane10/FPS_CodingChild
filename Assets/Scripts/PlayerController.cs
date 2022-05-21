@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     public new Rigidbody rigidbody;
     public float speed;
 
+    // ?? ??
+    public float jumpPower;
+    public bool isGround;
+
     void Start()
     {
         
@@ -36,5 +40,21 @@ public class PlayerController : MonoBehaviour
         {
             animationController.PlayTriggerAnim("Motion");
         }
+
+        if (isGround && Input.GetAxisRaw("Jump") != 0)
+        {
+            isGround = false;
+            rigidbody.AddForce(Vector3.up * jumpPower * Time.deltaTime);
+        }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGround = true;
+        }
+    }
+
+  
 }
