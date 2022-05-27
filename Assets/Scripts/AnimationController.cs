@@ -5,7 +5,6 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour
 {
     public Animator animator;
-    [SerializeField] private int A;
 
     // Start is called before the first frame update
     void Start()
@@ -47,5 +46,10 @@ public class AnimationController : MonoBehaviour
     public void PlayTriggerAnim(string animName)
     {
         animator.SetTrigger(animName);
+    }
+
+    public bool GetBool(string animName)
+    {
+        return animator.GetBool(animName);
     }
 }
