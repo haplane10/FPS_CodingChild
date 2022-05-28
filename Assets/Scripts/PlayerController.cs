@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
         {  
             transform.localEulerAngles = Camera.main.transform.localEulerAngles.y * Vector3.up;
         }
+        else
+        {
+            transform.localEulerAngles = Camera.main.transform.localEulerAngles.y * Vector3.up;
+        }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -59,7 +63,7 @@ public class PlayerController : MonoBehaviour
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), transform.TransformDirection(Vector3.down), out hit, 0.6f))
         {
-            Debug.Log(hit.distance);
+            //Debug.Log(hit.distance);
             Debug.DrawRay(transform.position + (Vector3.up * 0.1f), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
             if (!isGround)
             {
@@ -82,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
         var mouseX = Input.GetAxis("Mouse X");
         var mouseY = Input.GetAxis("Mouse Y");
-        headTarget.rotation *= Quaternion.AngleAxis(-mouseX * rotSensitivity, Vector3.up);
+        headTarget.rotation *= Quaternion.AngleAxis(mouseX * rotSensitivity, Vector3.up);
         headTarget.rotation *= Quaternion.AngleAxis(-mouseY * rotSensitivity, Vector3.right);
     }
 }
@@ -91,5 +95,5 @@ public enum PlayerType
 {
     None = 0,
     FirstCam = 1,
-    ThirdCam = 2,
+    ThirdCam = 2
 }
