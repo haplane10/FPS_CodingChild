@@ -84,6 +84,8 @@ MonoBehaviour:
   isGround: 1
   headTarget: {fileID: 0}
   rotSensitivity: 2
+  shotParent: {fileID: 7774920107394686084}
+  shotPrefab: {fileID: 707054140473012748, guid: 947343499bf084d71a0d247090f4fcd9, type: 3}
 --- !u!1001 &3395192429348967580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,6 +160,11 @@ Transform:
 --- !u!95 &355382540015358716 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 7908f1a2bde075d478e43a6e8b8277be, type: 3}
+  m_PrefabInstance: {fileID: 3395192429348967580}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7774920107394686084 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4969780610311489560, guid: 7908f1a2bde075d478e43a6e8b8277be, type: 3}
   m_PrefabInstance: {fileID: 3395192429348967580}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &3395192429261096295

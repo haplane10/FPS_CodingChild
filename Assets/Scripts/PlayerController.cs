@@ -17,9 +17,13 @@ public class PlayerController : MonoBehaviour
     public Transform headTarget;
     public float rotSensitivity;
 
+    // Shot
+    public Transform shotParent;
+    public GameObject shotPrefab;
+
     void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -56,6 +60,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Shot()
+    {
+        Instantiate(shotPrefab, shotParent.position, shotParent.rotation);
+    }
 
     private void FixedUpdate()
     {
