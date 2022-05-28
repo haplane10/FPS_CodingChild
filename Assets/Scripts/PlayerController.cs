@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -96,6 +96,10 @@ public class PlayerController : MonoBehaviour
         var mouseY = Input.GetAxis("Mouse Y");
         headTarget.rotation *= Quaternion.AngleAxis(mouseX * rotSensitivity, Vector3.up);
         headTarget.rotation *= Quaternion.AngleAxis(-mouseY * rotSensitivity, Vector3.right);
+
+        var angle = headTarget.eulerAngles;
+        angle.x = MathFunctions.ClampAngle(angle.x);
+        headTarget.eulerAngles = new Vector3(Mathf.Clamp(angle.x, -60, 60), angle.y, 0);
     }
 }
 
