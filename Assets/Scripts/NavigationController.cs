@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class NavigationController : MonoBehaviour
 {
     public Transform[] targets;
     public NavMeshAgent navMeshAgent;
     public AIType aiType;
+    public Slider hpSlider;
+    public float hpValue = 100;
 
     int targetIdx = 0;
     [SerializeField] Transform player;
@@ -103,6 +106,22 @@ public class NavigationController : MonoBehaviour
         yield return new WaitForSeconds(time);
         navMeshAgent.isStopped = false;
         aiType = AIType.Follow;
+    }
+
+    public Animator animator;
+
+    public void GetDamage(float value)
+    {
+        hpValue -= value;
+        hpSlider.value = hpValue;
+
+        if (hpValue <= 0)
+        {
+            // die
+            animator.SetTrigger("Death");
+            navMeshAgent.isStopped = true;
+            Destroy(gameObject, 3f);
+        }
     }
 }
 

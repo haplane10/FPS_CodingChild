@@ -6,6 +6,7 @@ public class Shot : MonoBehaviour
 {
     public new Rigidbody rigidbody;
     public float power;
+    public float weaponDamage;
     //Coroutine co_Destroy;
 
     // Start is called before the first frame update
@@ -27,6 +28,11 @@ public class Shot : MonoBehaviour
     {
         Destroy(gameObject, 3f);
         rigidbody.Sleep();
+
+        if (collision.collider.CompareTag("Enemy"))
+        {
+            collision.transform.GetComponentInParent<NavigationController>().GetDamage(weaponDamage);
+        }
         //StartCoroutine(DestroyObject(3));
     }
 

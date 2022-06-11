@@ -105,3 +105,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 520125960}
   power: 600
+  weaponDamage: 20
