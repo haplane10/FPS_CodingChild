@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -16,14 +17,18 @@ public class PlayerController : MonoBehaviour
     // Camera
     public Transform headTarget;
     public float rotSensitivity;
+    public CinemachineVirtualCamera thirdPersonCam;
 
     // Shot
     public Transform shotParent;
     public GameObject shotPrefab;
 
+    // Crosshair
+    public GameObject crossHair;
+
     void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -57,6 +62,54 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             animationController.PlayTriggerAnim("Motion");
+        }
+
+        if (!animationController.GetBool("Mode"))
+        {
+            if (!crossHair.activeInHierarchy)
+            {
+                crossHair.SetActive(true);
+            }
+        }
+        else
+        {
+            if (crossHair.activeInHierarchy)
+            {
+                crossHair.SetActive(false);
+            }
+        }
+
+        if (crossHair.activeInHierarchy)
+        {
+            crossHair.transform.LookAt(Camera.main.transform);
+
+            RaycastHit hit;
+            if (Physics.Raycast(shotParent.position, transform.TransformDirection(Vector3.forward), out hit, 10f))
+            {
+                crossHair.transform.position = hit.point - transform.TransformDirection(Vector3.forward);
+                crossHair.transform.localScale = Vector3.one;
+                crossHair.GetComponent<SpriteRenderer>().color = Color.red;
+            }
+            else
+            {
+                crossHair.transform.position = shotParent.position + transform.TransformDirection(Vector3.forward) * 10f;
+                crossHair.transform.localScale = Vector3.one * 1.5f;
+                crossHair.GetComponent<SpriteRenderer>().color = Color.green;
+            }
+        }
+
+        var mouseX = Input.GetAxis("Mouse X");
+        var mouseY = Input.GetAxis("Mouse Y");
+        headTarget.rotation *= Quaternion.AngleAxis(mouseX * rotSensitivity, Vector3.up);
+        headTarget.rotation *= Quaternion.AngleAxis(-mouseY * rotSensitivity, Vector3.right);
+
+        var angle = headTarget.eulerAngles;
+        angle.x = MathFunctions.ClampAngle(angle.x);
+        headTarget.eulerAngles = new Vector3(Mathf.Clamp(angle.x, -60, 60), angle.y, 0);
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            thirdPersonCam.Priority = (thirdPersonCam.Priority == 20 ? 0 : 20);
         }
     }
 
@@ -92,14 +145,7 @@ public class PlayerController : MonoBehaviour
             rigidbody.AddForce(Vector3.up * jumpPower * Time.deltaTime);
         }
 
-        var mouseX = Input.GetAxis("Mouse X");
-        var mouseY = Input.GetAxis("Mouse Y");
-        headTarget.rotation *= Quaternion.AngleAxis(mouseX * rotSensitivity, Vector3.up);
-        headTarget.rotation *= Quaternion.AngleAxis(-mouseY * rotSensitivity, Vector3.right);
-
-        var angle = headTarget.eulerAngles;
-        angle.x = MathFunctions.ClampAngle(angle.x);
-        headTarget.eulerAngles = new Vector3(Mathf.Clamp(angle.x, -60, 60), angle.y, 0);
+       
     }
 }
 

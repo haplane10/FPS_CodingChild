@@ -104,4 +104,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 520125960}
-  power: 300
+  power: 600
